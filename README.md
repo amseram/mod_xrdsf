@@ -173,7 +173,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Your Name - [@I_have_no_twitter_acc](https://twitter.com/your_username) - amseram@cloud.com
 
 Project Link: [https://github.com/amseram/mod_xrdsf](https://github.com/amseram/mod_xrdsf)
 
