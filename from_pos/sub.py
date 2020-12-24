@@ -58,7 +58,7 @@ class read_vasp:
         self.totatm = np.sum(self.atmnum)
         self.chk_vers()
         self.atmrnk = [self.atmlst[ia] for ia in range(len(self.atmnum)) for j in range(self.atmnum[ia])]
-        self.recvec = 2.*np.pi*self.celvec.I.T
+        self.recvec = 2.*np.pi*np.linalg.inv(self.celvec).T
         self.ampvec = np.linalg.norm(self.recvec,axis=1)
         self.chk_frac()
 
@@ -151,13 +151,15 @@ class ff:
         self.atmprm = np.array([np.array([self.elmtab.loc['a{}'.format(ind)],self.elmtab.loc['b{}'.format(ind)]],dtype=float) for ind in range(1,5)]).T
         self.atmc   = float(self.elmtab.loc['c'])
         self.func   = np.frompyfunc(self.eaff_func,3,1)
+        self.atma   = self.atmprm[0]
+        self.atmb   = self.atmprm[1]
 
     def eaff_func(self,x,y,l):
         return x*np.exp(y*l)
 
     def calc_eaff(self,k):
         tmpl = -1.*np.power(k/(4.*np.pi), 2.0)
-        return self.atmc+np.sum(self.func(self.atmprm[0],self.atmprm[1],tmpl))
+        return self.atmc+np.sum(self.func(self.atma,self.atmb,tmpl))
 
 def gpdf(k,k0=0.0,sig=0.05):
     return np.exp(-np.power((k-k0)/sig,2)/2)
@@ -239,8 +241,8 @@ def f_loop_g(knds,sobj,msd):
     ml     = knds[2]
     ng     = (2*mh+1)*(2*mk+1)*(2*ml+1)
     rvec   = np.array(sobj.recvec,order='F')
-    atmpra = np.array([sobj.atmobj[ia[0]].atmprm[0] for ia in sobj.atmary],order='F') 
-    atmprb = np.array([sobj.atmobj[ia[0]].atmprm[1] for ia in sobj.atmary],order='F') 
+    atmpra = np.array([sobj.atmobj[ia[0]].atma for ia in sobj.atmary],order='F') 
+    atmprb = np.array([sobj.atmobj[ia[0]].atmb for ia in sobj.atmary],order='F') 
     atmprc = np.array([sobj.atmobj[ia[0]].atmc for ia in sobj.atmary],order='F') 
     atmloc = np.array(sobj.atmloc,order='F')
     tmp    = x.f_loop(msd,mh,mk,ml,ng,rvec,atmloc,atmpra,atmprb,atmprc)
