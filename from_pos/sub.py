@@ -149,10 +149,10 @@ class ff:
         self.prmtab = data_base.prmtab
         self.elmtab = data_base.elmtab
         self.atmprm = np.array([np.array([self.elmtab.loc['a{}'.format(ind)],self.elmtab.loc['b{}'.format(ind)]],dtype=float) for ind in range(1,5)]).T
-        self.atmc   = float(self.elmtab.loc['c'])
-        self.func   = np.frompyfunc(self.eaff_func,3,1)
         self.atma   = self.atmprm[0]
         self.atmb   = self.atmprm[1]
+        self.atmc   = float(self.elmtab.loc['c'])
+        self.func   = np.frompyfunc(self.eaff_func,3,1)
 
     def eaff_func(self,x,y,l):
         return x*np.exp(y*l)
@@ -229,8 +229,8 @@ def calc_ints(cur_g,s_obj,msd):
 def f_calc_ints(cur_g,s_obj,msd):
     atmloc = np.array(s_obj.atmloc,order='F')
     curgpt = np.array(cur_g[0],order='F')
-    atmpra = np.array([[s_obj.atmobj[ia[0]].atmprm[0]] for ia in s_obj.atmary],order='F') 
-    atmprb = np.array([[s_obj.atmobj[ia[0]].atmprm[1]] for ia in s_obj.atmary],order='F') 
+    atmpra = np.array([[s_obj.atmobj[ia[0]].atma] for ia in s_obj.atmary],order='F') 
+    atmprb = np.array([[s_obj.atmobj[ia[0]].atmb] for ia in s_obj.atmary],order='F') 
     atmprc = np.array([[s_obj.atmobj[ia[0]].atmc] for ia in s_obj.atmary],order='F') 
     tmp    = x.f_calc_ints(msd,atmloc,curgpt,atmpra,atmprb,atmprc)
     return [cur_g[1],cur_g[2],cur_g[3],tmp[0],tmp[1]]
