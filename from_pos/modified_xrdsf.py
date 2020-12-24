@@ -26,14 +26,13 @@ def xrd_sf(initime):
     ints = np.array([calc_ints(ig,s_obj,prms.dfmsd) for ig in gmap])
     ints = ints[np.argsort(ints[:,3]),:]
     oput("[Info]: Starting Calc Structure Factor...")
-    gdat, indx, cnts = np.unique(ints[:,3].round(decimals=2),return_index=True,return_counts=True)
+    _dat, indx, cnts = np.unique(ints[:,3].round(decimals=2),return_index=True,return_counts=True)
     qtmp = np.linspace(0,prms.highq,prms.reslq*prms.highq)
     ktmp = ints[indx]
     ksum = np.array([np.sum(ints[cind:cnts[iind]+cind,4]) for iind,cind in enumerate(indx)])
     ksum[ksum<=4] = 0.0 ; ksum[0]       = 0.0
     ktmp[:,4]     = ksum
-    sfac = np.array([ik[4]*lpdf(qtmp,ik[3],prms.gamma) for ik in ktmp]).T
-    sfac = np.array([np.sum(line) for line in sfac])
+    sfac = np.array([np.sum(ilne) for ilne in np.transpose(np.array([ik[4]*lpdf(qtmp,ik[3],prms.gamma) for ik in ktmp]))])
     time_rec.append(time.time()-initime)
     oput("[Info]: Processing Time : {0[0]:.4f}s {0[1]:.4f}s {0[2]:.4f}s".format(time_rec))
     #plot out S(q)
@@ -51,4 +50,4 @@ def xrd_sf(initime):
 if __name__=="__main__":
     initime = time.time()
     np.warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)
-    test = xrd_sf(initime)
+    xrd_sf(initime)
