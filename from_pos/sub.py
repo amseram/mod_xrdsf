@@ -58,7 +58,7 @@ class read_vasp:
         self.totatm = np.sum(self.atmnum)
         self.chk_vers()
         self.atmrnk = [self.atmlst[ia] for ia in range(len(self.atmnum)) for j in range(self.atmnum[ia])]
-        self.recvec = 2.*np.pi*np.linalg.inv(self.celvec).T
+        self.recvec = 2.*np.pi*self.celvec.I.T
         self.ampvec = np.linalg.norm(self.recvec,axis=1)
         self.chk_frac()
 
