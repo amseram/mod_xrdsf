@@ -30,8 +30,7 @@ def xrd_sf(initime):
     qtmp = np.linspace(0,prms.highq,prms.reslq*prms.highq)
     ktmp = ints[indx]
     ksum = np.array([np.sum(ints[cind:cnts[iind]+cind,4]) for iind,cind in enumerate(indx)])
-    ksum[ksum<=4] = 0.0 ; ksum[0]       = 0.0
-    ktmp[:,4]     = ksum
+    ksum[ksum<=4] = 0.0 ; ksum[0]       = 0.0 ; ktmp[:,4]     = ksum
     sfac = np.array([np.sum(ilne) for ilne in np.transpose(np.array([ik[4]*lpdf(qtmp,ik[3],prms.gamma) for ik in ktmp]))])
     time_rec.append(time.time()-initime)
     oput("[Info]: Processing Time : {0[0]:.4f}s {0[1]:.4f}s {0[2]:.4f}s".format(time_rec))
