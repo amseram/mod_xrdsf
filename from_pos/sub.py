@@ -86,7 +86,7 @@ class read_vasp:
         else:
             self.atmloc = np.array([ilne.strip().split()[:3] for ilne in self.rawdat[self.inilne+1:self.inilne+1+self.totatm]],dtype=float)
         if self.inilne > self.atmlne + 2 :
-            self.select = [ilen.strip().split()[3:] for ilne in self.rawdat[self.inilne+1:self.inilne+1+self.totatm]]
+            self.select = [ilne.strip().split()[3:] for ilne in self.rawdat[self.inilne+1:self.inilne+1+self.totatm]]
         self.gen_atom_array()
 
     def gen_atom_array(self):
