@@ -148,9 +148,9 @@ class ff:
         self.cursym = sym
         self.prmtab = data_base.prmtab
         self.elmtab = data_base.elmtab
-        self.atmprm = np.array([np.array([self.elmtab.loc['a{}'.format(ind)],self.elmtab.loc['b{}'.format(ind)]],dtype=float) for ind in range(1,5)]).T
-        self.atma   = self.atmprm[0]
-        self.atmb   = self.atmprm[1]
+        self.atmprm = np.array([[self.elmtab.loc['a{}'.format(ind)],self.elmtab.loc['b{}'.format(ind)]] for ind in range(1,5)],dtype=float)
+        self.atma   = self.atmprm[:,0]
+        self.atmb   = self.atmprm[:,1]
         self.atmc   = float(self.elmtab.loc['c'])
         self.func   = np.frompyfunc(self.eaff_func,3,1)
 
