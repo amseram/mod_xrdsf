@@ -1,4 +1,4 @@
-MOD_XRDSF is the modified version of XRDSF (https://github.com/rraffiu/XRDSF)
+MOD_XRDSF
 Requirements:
   Argparse;
   Pandas;
